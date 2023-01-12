@@ -1,0 +1,6 @@
+
+"prettier.ignore": [
+    "node_modules/",
+    "dist/",
+    "tsconfig.json",
+]
