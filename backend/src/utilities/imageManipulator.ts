@@ -1,17 +1,18 @@
 import sharp, { OutputInfo } from 'sharp';
 import { promises as fs } from 'fs';
-import { ResizedImg } from '../custom-types/image';
+import { CustomBuffer } from '../custom-types/image';
+import cache from 'memory-cache';
 
-let resized: ResizedImg;
+let resized: CustomBuffer;
 
 export const convertImage = (
     fileName: string,
     width: number,
     height: number,
-): Promise<ResizedImg> => {
+): Promise<CustomBuffer> => {
     const generatedImgPath = `images/thumb/${fileName}.jpg`;
     //If the promise did not resolve, this should return undefined, which I should handle in the image controller
-    return new Promise<ResizedImg>((resolve, reject) => {
+    return new Promise<CustomBuffer>((resolve, reject) => {
         resizeImg(fileName, width, height).then(() => {
             saveImg(resized, generatedImgPath);
         });
@@ -21,7 +22,7 @@ export const convertImage = (
     });
 };
 
-const saveImg = (img: ResizedImg, path: string) => {
+const saveImg = (img: CustomBuffer, path: string) => {
     return new Promise((resolve, reject) => {
         fs.writeFile(path, img as unknown as string)
             .then(() => {
@@ -31,6 +32,18 @@ const saveImg = (img: ResizedImg, path: string) => {
             .catch((err: Error) => {
                 console.error(err);
                 reject(err);
+            });
+    });
+};
+
+export const openImg = (path: string) => {
+    return new Promise<CustomBuffer>((resolve, reject) => {
+        fs.readFile(path)
+            .then(buffer => {
+                resolve(buffer);
+            })
+            .catch((err: Error) => {
+                reject(err.message);
             });
     });
 };

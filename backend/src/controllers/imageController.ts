@@ -1,7 +1,6 @@
 import express from 'express';
-import { ResizedImg } from '../custom-types/image';
-import { convertImage } from '../utilities/imageConverter';
-import path from 'path';
+import { CustomBuffer } from '../custom-types/image';
+import { convertImage, openImg } from '../utilities/imageManipulator';
 
 export const loadImgAndResize = async (req: express.Request, res: express.Response) => {
     const { filename, width, height } = req.query;
@@ -10,10 +9,15 @@ export const loadImgAndResize = async (req: express.Request, res: express.Respon
         return res.send('Specify all the needed data in the query');
     }
     if (!width || !height) {
-        return res.set('Content-Type', 'image/jpeg').send(`images/full/${filename}.jpg)`);
+        try {
+            const defaultImg = await openImg(`images/full/${filename}.jpg`);
+            return res.set('Content-Type', 'image/jpeg').send(defaultImg);
+        } catch (err) {
+            return res.send(err);
+        }
     }
 
-    const conversionPromise: Promise<ResizedImg> = convertImage(
+    const conversionPromise: Promise<CustomBuffer> = convertImage(
         filename as unknown as string,
         parseInt(width as unknown as string),
         parseInt(height as unknown as string),
