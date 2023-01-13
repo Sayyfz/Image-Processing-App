@@ -11,21 +11,28 @@ export const convertImage = (
     height: number,
 ): Promise<CustomBuffer> => {
     const generatedImgPath = `images/thumb/${fileName}.jpg`;
-    //If the promise did not resolve, this should return undefined, which I should handle in the image controller
-    return new Promise<CustomBuffer>((resolve, reject) => {
-        resizeImg(fileName, width, height).then(() => {
-            saveImg(resized, generatedImgPath);
-        });
 
-        /*The reason I wrapped the file saving after the image resize is because it is obviously dependant on the image 
-        to be existing inside the thumb folder in the first place*/
+    return new Promise((resolve, reject) => {
+        resizeImg(fileName, width, height)
+            .then(() => {
+                const resultImg = saveImg(resized, generatedImgPath);
+                resolve(resultImg);
+            })
+            .catch(err => {
+                reject(err);
+            });
     });
 };
+//If the promise did not resolve, this should return undefined, which I should handle in the image controller
+
+/*The reason I wrapped the file saving after the image resize is because it is obviously dependant on the image 
+        to be existing inside the thumb folder in the first place*/
 
 const saveImg = (img: CustomBuffer, path: string) => {
-    return new Promise((resolve, reject) => {
+    return new Promise<CustomBuffer>((resolve, reject) => {
         fs.writeFile(path, img as unknown as string)
             .then(() => {
+                cache.put(path, resized, 60 * 1000); //image is cached for 1 min here
                 resolve(resized);
                 console.log('Image saved successfully');
             })
@@ -40,6 +47,9 @@ export const openImg = (path: string) => {
     return new Promise<CustomBuffer>((resolve, reject) => {
         fs.readFile(path)
             .then(buffer => {
+                // I am not sure if this is required as the other one
+                // but it's surely better to cache the loading of the original image too when the user doesn't specify height or width
+                cache.put(path, buffer, 30 * 1000);
                 resolve(buffer);
             })
             .catch((err: Error) => {
