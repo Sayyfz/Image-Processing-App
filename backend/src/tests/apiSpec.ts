@@ -6,7 +6,7 @@ const request = supertest(app);
 
 describe('API related specs', () => {
     it('Expects /api endpoint to respond with ', async () => {
-        const res = await request.get('/');
+        const res = await request.get('/api');
         expect(res.text).toEqual(welcomeMessage);
     });
 
