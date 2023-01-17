@@ -126,6 +126,8 @@ npm run build
 
 This Project is consisted of 2 projects, one for the Server made with Nodejs and Express and the other is for the Client that is made with React.
 <br />
+<br />
+  
 The server project is responsible for storing the images in the file system server-side and handle image processing on the fly through api endpoints.
 <br />
 While the Client project is responsible for entering image names that are stored on the server, resize the entered image with desired dimensions, and finally retrieve the image in the frontend preview.
