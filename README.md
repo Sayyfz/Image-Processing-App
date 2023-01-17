@@ -23,9 +23,10 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#introduction">Usage</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
+        <li><a href="#scripts">Scripts</a></li>
+        <li><a href="#usage">Usage</a></li>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
@@ -56,18 +57,6 @@
 
 ## Getting Started
 
-### Usage
-
-This Project is consisted of 2 projects, one for the Server made with Nodejs and Express and the other is for the Client that is made with React.
-<br />
-The server project is responsible for storing the images in the file system server-side and handle image processing on the fly through api endpoints.
-<br />
-While the Client project is responsible for entering image names that are stored on the server, resize the entered image with desired dimensions, and finally retrieve the image in the frontend preview.
-<br />
-<br />
-The project can be used a standalone backend project and doesn't need to retrieve the data from the frontend, instead you can just run the backend server and enter the data directly in the url params or using a tool for api testing such as Postman.
-<br />
-Howeever, it is preferred to enter the data in the browser url instead of an api testing tool in order to see the image preview instead of some unreadable buffer data.
 
 ### Prerequisites
 
@@ -95,6 +84,54 @@ Installing frontend dependencies:
     npm install
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Scripts
+
+<h3> Backend <h3/>
+Development mode script:
+
+```sh
+npm run start
+```
+
+Production mode script:
+
+```sh
+npm run build
+```
+
+Running tests script:
+
+```sh
+npm run test
+```
+
+<h3> Frontend <h3/>
+
+Dev mode script:
+
+```sh
+npm run start
+```
+
+Production mode script:
+
+```sh
+npm run build
+```
+
+### Usage
+
+This Project is consisted of 2 projects, one for the Server made with Nodejs and Express and the other is for the Client that is made with React.
+<br />
+The server project is responsible for storing the images in the file system server-side and handle image processing on the fly through api endpoints.
+<br />
+While the Client project is responsible for entering image names that are stored on the server, resize the entered image with desired dimensions, and finally retrieve the image in the frontend preview.
+<br />
+<br />
+The project can be used a standalone backend project and doesn't need to retrieve the data from the frontend, instead you can just run the backend server and enter the data directly in the url params or using a tool for api testing such as Postman.
+<br />
+Howeever, it is preferred to enter the data in the browser url instead of an api testing tool in order to see the image preview instead of some unreadable buffer data.
 
 <!-- CONTACT -->
 
