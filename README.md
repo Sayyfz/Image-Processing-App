@@ -57,7 +57,6 @@
 
 ## Getting Started
 
-
 ### Prerequisites
 
 -   npm
@@ -125,15 +124,22 @@ npm run build
 ### Usage
 
 Currently stored images on the server:
-  -encenadaport.jpg
-  -fjord.jpg
-  -icelandwaterfall.jpg
-  -palmtunnel.jpg
-  -santamonica.jpg
+<br/>
+-encenadaport.jpg
+<br/>
+-fjord.jpg
+<br/>
+-icelandwaterfall.jpg
+<br/>
+-palmtunnel.jpg
+<br/>
+-santamonica.jpg
+<br/>
+<br/>
 This Project is consisted of 2 projects, one for the Server made with Nodejs and Express and the other is for the Client that is made with React.
 <br />
 <br />
-  
+
 The server project is responsible for storing the images in the file system server-side and handle image processing on the fly through api endpoints.
 While the Client project is responsible for entering image names that are stored on the server, resize the entered image with desired dimensions, and finally retrieve the image in the frontend preview.
 <br />
@@ -142,7 +148,6 @@ The project can be used a standalone backend project and doesn't need to retriev
 <br />
 Howeever, it is preferred to enter the data in the browser url instead of an api testing tool in order to see the image preview instead of some unreadable buffer data.
 
-  
   <h3>API Endpoints </h3>
   <br />
   

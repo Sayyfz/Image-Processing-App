@@ -8,7 +8,7 @@
         "build": "npx tsc && node ./dist/.",
         "test": "npx tsc && npx jasmine",
         "lint": "eslint ./src --fix",
-        "prettier": "prettier --write src/*.js"
+        "prettier": "prettier --write dist/*.js"
     },
     "keywords": [],
     "author": "",
