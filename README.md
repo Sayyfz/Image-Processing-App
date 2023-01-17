@@ -88,6 +88,7 @@ Installing frontend dependencies:
 ### Scripts
 
 <h3> Backend <h3/>
+  <br/>
 Development mode script:
 
 ```sh
@@ -107,6 +108,7 @@ npm run test
 ```
 
 <h3> Frontend <h3/>
+  <br/>
 
 Dev mode script:
 
