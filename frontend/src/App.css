@@ -1,7 +1,10 @@
 .app {
     width: 100%;
-    height: 100vh;
-    overflow: hidden;
+    height: clamp(100vh, 100vh, fit-content);
+    padding: 150px 0;
+    /* overflow: hidden; */
+}
+main {
 }
 
 .main-form {
@@ -17,10 +20,14 @@
     border-bottom: 1px solid var(--accent-color);
 }
 
-img {
+.img-container h2 {
+    color: white;
+}
+
+.img-container img {
     border-radius: 15px;
-    width: 200px;
-    height: 200px;
+    max-width: 500px;
+    max-height: 500px;
 }
 
 /* .main-form .error {

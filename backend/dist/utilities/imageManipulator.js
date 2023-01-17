@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.openImg = exports.convertImage = void 0;
+exports.openImg = exports.getImgMetaData = exports.convertImage = void 0;
 const sharp_1 = __importDefault(require("sharp"));
 const fs_1 = require("fs");
 const memory_cache_1 = __importDefault(require("memory-cache"));
@@ -34,12 +34,26 @@ const resizeImg = (imgName, width, height) => {
         })
             .catch((error) => {
             console.error(error.message);
-            reject();
+            reject(error.message);
         });
         // This promise handles the resize of the image and converts it into a buffer
         // We still need to save the image to the file system so we proceed to do that next
     });
 };
+const getImgMetaData = (imgFile) => {
+    return new Promise((resolve, reject) => {
+        (0, sharp_1.default)(imgFile)
+            .metadata()
+            .then((data) => {
+            resolve(data);
+        })
+            .catch((error) => {
+            console.log(error.message);
+            reject('Error occured while reading image data');
+        });
+    });
+};
+exports.getImgMetaData = getImgMetaData;
 /*The reason I wrapped the file saving after the image resize is because it is obviously dependant on the image
 to be existing inside the thumb folder in the first place*/
 const saveImg = (img, path) => {

@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const sharp_1 = __importDefault(require("sharp"));
 // import supertest from 'supertest';
 const imageManipulator_1 = require("../utilities/imageManipulator");
 describe('Image Processing Suite here', () => {
@@ -11,12 +7,9 @@ describe('Image Processing Suite here', () => {
         const filename = 'fjord';
         const convertedImg = (await (0, imageManipulator_1.convertImage)(filename, 500, 200));
         if (convertedImg) {
-            (0, sharp_1.default)(convertedImg)
-                .metadata()
-                .then(metadata => {
-                console.log(metadata);
-                expect(metadata.width).toEqual(500);
-                expect(metadata.height).toEqual(200);
+            (0, imageManipulator_1.getImgMetaData)(convertedImg).then((data) => {
+                expect(data.width).toEqual(500);
+                expect(data.height).toEqual(200);
             });
         }
     });
