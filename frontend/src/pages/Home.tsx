@@ -1,43 +1,50 @@
-import React, { FormEvent, FormEventHandler, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
+import { resizeImg } from '../api/ImageApi';
 import CoolButton from '../components/CoolButton';
 import Input from '../components/Input';
-import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000';
+interface ImageApiError {
+    data: string;
+}
+
+//TODO: adjust shown image to take its original size
+
+const MAX_DIMENSIONS = 2000;
 
 const Home = () => {
     const [name, setName] = useState('');
     const [width, setWidth] = useState('');
     const [height, setHeight] = useState('');
+    const [error, setError] = useState('');
     const [img, setImg] = useState('');
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         resetFields();
 
-        e.preventDefault();
-
+        //We are not allowing the user to resize the image to more than the MAX_DIMENSIONS constant
+        //We cant allow any value to be processed since it will be very resource heavy potentially
         const queryParams = {
             filename: name,
-            width,
-            height,
+            width: Math.max(parseInt(width), MAX_DIMENSIONS).toString(),
+            height: Math.max(parseInt(height), MAX_DIMENSIONS).toString(),
         };
-
         const queryString = new URLSearchParams(queryParams).toString();
 
-        // axios
-        //     .get(`${BASE_URL}/api/images?${queryString}`)
-        //     .then(res => {
-        //         setImg(res.data);
-        //     })
-        //     .catch((err: Error) => {
-        //         console.log(err.message);
-        //     });
+        try {
+            const res = await resizeImg(queryString);
+            setImg(res);
+        } catch (err) {
+            setError((err as ImageApiError).data);
+        }
     };
 
     const resetFields = () => {
         setName('');
         setWidth('');
         setHeight('');
+        setImg('');
+        setError('');
     };
 
     return (
@@ -48,16 +55,17 @@ const Home = () => {
             >
                 <h1> Enter Image Details </h1>
                 <Input str='Name' query={name} setQuery={setName} />
-                <Input str='Width' query={width} setQuery={setWidth} />
-                <Input str='Height' query={height} setQuery={setHeight} />
+                <Input str='Width' query={width} setQuery={setWidth} type={'number'} />
+                <Input str='Height' query={height} setQuery={setHeight} type={'number'} />
+                {error && <div className='error text-danger'>{error}</div>}
                 <CoolButton text={'Submit'} />
-                {/* {
-                    <img
-                        src={'http://localhost:5000/api/images?filename=fjord&width=200&height=200'}
-                        alt=''
-                    />
-                } */}
             </form>
+            {img ? (
+                <div>
+                    <img src={img} alt='Resized Img' />
+                    {/* <span className="d-block">All images are shown in 200x200 view, but its stored in the backend a</span> */}
+                </div>
+            ) : null}
         </main>
     );
 };

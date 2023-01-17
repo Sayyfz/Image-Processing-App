@@ -9,9 +9,9 @@ export const loadImgAndResize = async (req: express.Request, res: express.Respon
         try {
             const path = `images/full/${filename}.jpg`;
             const defaultImg = await openImg(path);
-            return res.set('Content-Type', 'image/jpeg').send(defaultImg);
+            return res.set('Content-Type', 'image/jpeg').json({ img: defaultImg });
         } catch (err) {
-            return res.send(err);
+            return res.send((err as Error).message);
         }
     }
 
@@ -23,8 +23,9 @@ export const loadImgAndResize = async (req: express.Request, res: express.Respon
 
     try {
         const resized = await conversionPromise;
-        return res.set('Content-Type', 'image/jpeg').send(resized);
-    } catch (error: unknown) {
-        return res.send('No image found with the name ' + filename);
+        return res.set('Content-Type', 'image/jpeg').json({ img: resized });
+    } catch (error) {
+        console.log(error);
+        return res.status(400).send(`No image found with the name ${filename}`);
     }
 };

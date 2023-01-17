@@ -8,7 +8,7 @@ button {
     text-transform: uppercase;
     font-size: 15px;
     transition: all 0.5s ease;
-    width: 80%;
+    width: clamp(100px, 80%, 275px);
 }
 
 button:hover {

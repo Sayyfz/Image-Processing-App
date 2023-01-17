@@ -5,19 +5,20 @@ interface InputField {
     str: string;
     query: string;
     setQuery: Function;
+    type?: string;
 }
 
-const Input = ({ str, query, setQuery }: InputField) => {
+const Input = ({ str, query, setQuery, type }: InputField) => {
     const [label, setLabel] = useState(['']);
 
     useEffect(() => {
         setLabel(str.split(''));
-    }, []);
+    }, [str]);
 
     return (
         <div className='form-control-custom d-flex justify-content-center align-items-center'>
             <input
-                type='value'
+                type={type ? type : 'value'}
                 required
                 value={query}
                 onChange={e => {

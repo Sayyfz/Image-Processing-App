@@ -1,4 +1,4 @@
-import sharp, { OutputInfo } from 'sharp';
+import sharp, { Metadata, OutputInfo } from 'sharp';
 import { promises as fs } from 'fs';
 import { CustomBuffer } from '../custom-types/image';
 import cache from 'memory-cache';
@@ -32,15 +32,28 @@ const resizeImg = (imgName: string, width: number, height: number) => {
             .toBuffer()
             .then((data: Buffer) => {
                 resized = data;
-                console.log('image resized successfully');
                 resolve();
             })
             .catch((error: Error) => {
                 console.error(error.message);
-                reject();
+                reject(error.message);
             });
         // This promise handles the resize of the image and converts it into a buffer
         // We still need to save the image to the file system so we proceed to do that next
+    });
+};
+
+export const getImgMetaData = (imgFile: Buffer | string) => {
+    return new Promise<Metadata>((resolve, reject) => {
+        sharp(imgFile)
+            .metadata()
+            .then((data: Metadata) => {
+                resolve(data);
+            })
+            .catch((error: Error) => {
+                console.log(error.message);
+                reject('Error occured while reading image data');
+            });
     });
 };
 
@@ -52,7 +65,6 @@ const saveImg = (img: CustomBuffer, path: string) => {
             .then(() => {
                 cache.put(path, resized, 60 * 1000); //image is cached for 1 min here
                 resolve(resized);
-                console.log('Image saved successfully');
             })
             .catch((err: Error) => {
                 console.error(err);

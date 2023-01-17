@@ -17,7 +17,12 @@
     border-bottom: 1px solid var(--accent-color);
 }
 
-.main-form img {
+img {
+    border-radius: 15px;
     width: 200px;
     height: 200px;
 }
+
+/* .main-form .error {
+    color: white;
+} */
