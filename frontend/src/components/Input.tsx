@@ -43,6 +43,3 @@ const Input = ({ str, query, setQuery, type }: InputField) => {
 };
 
 export default Input;
-
-// I actually took this input from a cool website and configured it to be dynamic and use JSX, the link for the input:
-// https://uiverse.io/liyaxu123/warm-eel-62

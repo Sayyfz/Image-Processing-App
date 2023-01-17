@@ -52,8 +52,11 @@ const Home = () => {
         setError('');
     };
 
+    // const uploadFile = () => {};
+    // const handleUpload = () => {};
+
     return (
-        <main className='w-100 h-100 d-flex flex-column justify-content-center align-items-center'>
+        <main className='w-100 h-100 d-flex flex-column justify-content-center align-items-center position-relative'>
             <form
                 onSubmit={handleSubmit}
                 className=' mx-4 d-flex flex-column gap-4 align-items-center main-form mb-5'
@@ -67,20 +70,40 @@ const Home = () => {
             </form>
 
             <div className='img-container d-flex flex-column align-items-center'>
-                <h2>Your Requested Image Goes Here</h2>
                 <br />
                 {img ? (
-                    <img
-                        style={{
-                            // aspectRatio: `${parseInt(width) / parseInt(height)}`,
-                            height: parseInt(height),
-                            width: parseInt(width),
-                        }}
-                        src={img}
-                        alt='Resized Img'
-                    />
+                    <div className='d-flex flex-column align-items-center gap-4'>
+                        <h2>Here is your image</h2>
+                        <img
+                            style={{
+                                // aspectRatio: `${parseInt(width) / parseInt(height)}`,
+                                height: parseInt(height),
+                                width: parseInt(width),
+                            }}
+                            src={img}
+                            alt='Resized Img'
+                        />
+                        <span className='text-muted text-center d-block'>
+                            The maximum shown dimensions will be 500x500 - even if you entered a
+                            larger value - to avoid having the image taking potentially too large
+                            space in the browser window. However, the image originally will be saved
+                            with the dimensions you entered.
+                        </span>
+                    </div>
                 ) : null}
             </div>
+
+            {/* <div onClick={uploadFile} className='upload'>
+                <label htmlFor='file-input'>
+                    <i title='Upload your own image' className='fa-solid fa-upload'></i>
+                </label>
+                <input
+                    onChange={handleUpload}
+                    id='file-input'
+                    type='file'
+                    style={{ display: 'none' }}
+                />
+            </div> */}
         </main>
     );
 };
