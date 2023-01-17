@@ -22,7 +22,6 @@ describe('API related specs', () => {
 
     it('Expects buffer data to be returned from endpoint /api/images?filename=fjord&width=200&height=200', async () => {
         const res = await request.get('/api/images?filename=fjord&width=200&height=200');
-        console.log(typeof res.body);
         expect(res.body).toBeTruthy();
     });
 });

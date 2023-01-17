@@ -15,6 +15,7 @@ export const convertImage = (
     return new Promise((resolve, reject) => {
         resizeImg(fileName, width, height)
             .then(() => {
+                // We still need to save the image to the file system so we proceed to do that next
                 const resultImg = saveImg(resized, generatedImgPath);
                 resolve(resultImg);
             })
@@ -35,11 +36,9 @@ const resizeImg = (imgName: string, width: number, height: number) => {
                 resolve();
             })
             .catch((error: Error) => {
-                console.error(error.message);
                 reject(error.message);
             });
         // This promise handles the resize of the image and converts it into a buffer
-        // We still need to save the image to the file system so we proceed to do that next
     });
 };
 
@@ -57,8 +56,8 @@ export const getImgMetaData = (imgFile: Buffer | string) => {
     });
 };
 
-/*The reason I wrapped the file saving after the image resize is because it is obviously dependant on the image 
-to be existing inside the thumb folder in the first place*/
+/*The reason I wrapped the file saving after the image resize is because it is dependant on the image 
+to be existing inside the thumb folder in the first place */
 const saveImg = (img: CustomBuffer, path: string) => {
     return new Promise<CustomBuffer>((resolve, reject) => {
         fs.writeFile(path, img as unknown as string)
