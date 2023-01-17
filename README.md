@@ -124,6 +124,12 @@ npm run build
 
 ### Usage
 
+Currently stored images on the server:
+  -encenadaport.jpg
+  -fjord.jpg
+  -icelandwaterfall.jpg
+  -palmtunnel.jpg
+  -santamonica.jpg
 This Project is consisted of 2 projects, one for the Server made with Nodejs and Express and the other is for the Client that is made with React.
 <br />
 <br />
