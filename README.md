@@ -136,6 +136,18 @@ The project can be used a standalone backend project and doesn't need to retriev
 <br />
 Howeever, it is preferred to enter the data in the browser url instead of an api testing tool in order to see the image preview instead of some unreadable buffer data.
 
+  
+  <h3>API Endpoints </h3>
+  <br />
+  
+  /api
+  <br />
+  /api/images
+  <br />
+  where this endpoint accepts query parameters of [filename] & [width] & [height]
+  
+  
+  
 <!-- CONTACT -->
 
 ## Contact
