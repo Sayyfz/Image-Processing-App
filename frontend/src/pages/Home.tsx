@@ -20,7 +20,6 @@ const Home = () => {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        resetFields();
 
         //We are not allowing the user to resize the image to more than the MAX_DIMENSIONS constant
         //We cant allow any value to be processed since it will be very resource heavy potentially
@@ -30,6 +29,8 @@ const Home = () => {
             height: Math.min(parseInt(heightQuery), MAX_DIMENSIONS).toString(),
         };
         const queryString = new URLSearchParams(queryParams).toString();
+
+        resetFields();
 
         try {
             const res = await resizeImg(queryString);

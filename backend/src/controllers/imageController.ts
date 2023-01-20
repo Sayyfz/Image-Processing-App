@@ -1,4 +1,5 @@
 import express from 'express';
+import { promises as fs } from 'fs';
 import { convertImage, fileExists } from '../utilities/imageManipulator';
 
 export const loadImgAndResize = async (
@@ -7,8 +8,13 @@ export const loadImgAndResize = async (
 ): Promise<express.Response> => {
     const { filename, width, height } = req.query;
 
+    await fs.access('images/thumb').catch(err => {
+        fs.mkdir('images/thumb');
+    });
+
     const resizedImgPath = `images/thumb/${filename}${width}x${height}.jpg`;
 
+    res.removeHeader('Content-Disposition');
     try {
         const searchInfo = await fileExists(resizedImgPath);
         if (searchInfo.found) {

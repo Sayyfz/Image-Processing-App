@@ -30,6 +30,12 @@ const imgValidationAndCacheMiddleware = async (
         }
     }
 
+    //Checking if the width and height are actually valid values to convert to numbers
+    if (isNaN(parseInt(height as string)) || isNaN(parseInt(width as string))) {
+        console.log('before');
+        return res.send('Please enter valid values for width and height');
+    }
+
     try {
         const path = `images/thumb/${filename}${width}x${height}.jpg`;
         const cachedImg = cache.get(path);
@@ -37,8 +43,8 @@ const imgValidationAndCacheMiddleware = async (
         if (cachedImg) {
             return res.set('Content-Type', 'image/jpeg').send(cachedImg);
         }
-    } catch (error: unknown) {
-        return res.send('No image found with the name ' + filename);
+    } catch (error) {
+        console.log(error as Error);
     }
 
     //if the image either exists in cache but with different dimensions or it doesn't exist in cache at all

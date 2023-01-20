@@ -21,6 +21,7 @@ const Input = ({ str, query, setQuery, type }: InputField) => {
                 type={type ? type : 'value'}
                 required
                 value={query}
+                maxLength={25}
                 onChange={e => {
                     setQuery(e.target.value);
                 }}
