@@ -31,8 +31,9 @@ const imgValidationAndCacheMiddleware = async (
     }
 
     //Checking if the width and height are actually valid values to convert to numbers
-    if (isNaN(parseInt(height as string)) || isNaN(parseInt(width as string))) {
-        console.log('before');
+    const widthNum = parseInt(width as string);
+    const heightNum = parseInt(height as string);
+    if (isNaN(heightNum) || isNaN(widthNum) || widthNum <= 0 || heightNum <= 0) {
         return res.send('Please enter valid values for width and height');
     }
 
