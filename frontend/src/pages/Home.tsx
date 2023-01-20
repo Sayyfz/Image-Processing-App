@@ -7,9 +7,6 @@ interface ImageApiError {
     data: string;
 }
 
-//TODO: adjust shown image to take its original size
-//TODO: add uploading functionality
-
 const MAX_DIMENSIONS = 2000;
 
 const Home = () => {
@@ -29,8 +26,8 @@ const Home = () => {
         //We cant allow any value to be processed since it will be very resource heavy potentially
         const queryParams = {
             filename: name,
-            width: Math.max(parseInt(widthQuery), MAX_DIMENSIONS).toString(),
-            height: Math.max(parseInt(heightQuery), MAX_DIMENSIONS).toString(),
+            width: Math.min(parseInt(widthQuery), MAX_DIMENSIONS).toString(),
+            height: Math.min(parseInt(heightQuery), MAX_DIMENSIONS).toString(),
         };
         const queryString = new URLSearchParams(queryParams).toString();
 
@@ -40,7 +37,7 @@ const Home = () => {
             setHeight(heightQuery);
             setWidth(widthQuery);
         } catch (err) {
-            setError((err as ImageApiError).data);
+            setError(`No file with the name ${queryParams.filename} exists`);
         }
     };
 

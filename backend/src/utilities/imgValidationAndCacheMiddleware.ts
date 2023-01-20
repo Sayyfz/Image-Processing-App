@@ -1,13 +1,14 @@
 import express, { NextFunction } from 'express';
 import cache from 'memory-cache';
-import sharp from 'sharp';
+import { openImg } from './imageManipulator';
 
-const imgCachingMiddleware = (
+const imgValidationAndCacheMiddleware = async (
     req: express.Request,
     res: express.Response,
     next: NextFunction,
-): express.Response | void => {
+): Promise<express.Response | void> => {
     const { filename, width, height } = req.query;
+    const fullImgPath = `images/full/${filename}.jpg`;
 
     if (!filename) {
         return res.send('Specify all the needed data in the query');
@@ -15,32 +16,26 @@ const imgCachingMiddleware = (
 
     if (!width || !height) {
         try {
-            const path = `images/full/${filename}.jpg`;
-            const cachedImg = cache.get(path);
+            const cachedImg = cache.get(fullImgPath);
             if (cachedImg) {
+                console.log('cache retrieved');
                 return res.set('Content-Type', 'image/jpeg').send(cachedImg);
             }
+            //If there is no height or width specified, we will just serve the original image
+            const defaultImg = await openImg(fullImgPath);
+            console.log('default retrieved');
+            return res.set('Content-Type', 'image/jpeg').send(defaultImg);
         } catch (err) {
             return res.send(err);
         }
     }
 
     try {
-        const path = `images/thumb/${filename}.jpg`;
+        const path = `images/thumb/${filename}${width}x${height}.jpg`;
         const cachedImg = cache.get(path);
 
         if (cachedImg) {
-            //check if the width and height are the same as the img retrieved here
-            sharp(cachedImg)
-                .metadata()
-                .then((data): express.Response | void => {
-                    // If the requested image exists in cache and has the same size then we serve it
-                    if (data.width === width && data.height === height)
-                        return res.set('Content-Type', 'image/jpeg').send(cachedImg);
-                })
-                .catch((err: Error) => {
-                    return res.send('Cannot retrieve image data from cache');
-                });
+            return res.set('Content-Type', 'image/jpeg').send(cachedImg);
         }
     } catch (error: unknown) {
         return res.send('No image found with the name ' + filename);
@@ -52,4 +47,4 @@ const imgCachingMiddleware = (
     next();
 };
 
-export default imgCachingMiddleware;
+export default imgValidationAndCacheMiddleware;
