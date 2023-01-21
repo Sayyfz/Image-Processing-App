@@ -23,6 +23,12 @@ const Home = () => {
 
         //We are not allowing the user to resize the image to more than the MAX_DIMENSIONS constant
         //We cant allow any value to be processed since it will be very resource heavy potentially
+        if (parseInt(widthQuery) <= 0 || parseInt(heightQuery) <= 0) {
+            resetFields();
+            setError('Please provide positive values');
+            return;
+        }
+
         const queryParams = {
             filename: name,
             width: Math.min(parseInt(widthQuery), MAX_DIMENSIONS).toString(),
